@@ -1,0 +1,53 @@
+
+#I = cv2.imread('E:/Sai teja mat/TA/images/flower1.png')
+import cv2
+import matplotlib.pyplot as plt
+
+# Image Enhancement
+I = cv2.imread(r'E:/Sai teja mat/TA/images/flower1.png')
+plt.subplot(4, 2, 1)
+plt.imshow(cv2.cvtColor(I, cv2.COLOR_BGR2RGB))
+plt.title('Original Image')
+
+g = cv2.cvtColor(I, cv2.COLOR_BGR2GRAY)
+plt.subplot(4, 2, 5)
+plt.imshow(g, cmap='gray')
+plt.title('Gray Image')
+
+# Image Enhancement using imadjust
+J = cv2.convertScaleAbs(g, alpha=0.7, beta=76)  # Equivalent to imadjust(g, [0 255], [0.3*255 0.7*255])
+plt.subplot(4, 2, 3)
+plt.imshow(J, cmap='gray')
+plt.title('Enhanced Image')
+
+# Separate color channels
+b, g, r = cv2.split(I)
+
+# Adjust each channel separately
+b = cv2.convertScaleAbs(b, alpha=0.2, beta=76)
+g = cv2.convertScaleAbs(g, alpha=0.3, beta=76)
+# Red channel is not adjusted to keep it unchanged.
+
+# Merge the channels back together
+D = cv2.merge([b, g, r])
+plt.subplot(4, 2, 4)
+plt.imshow(cv2.cvtColor(D, cv2.COLOR_BGR2RGB))
+plt.title('Enhanced Image 2')
+
+# Histogram and Histogram Equalization
+plt.subplot(4, 2, 7)
+plt.hist(g.ravel(), bins=256, range=[0, 256], color='b', alpha=0.7)
+plt.title('Histogram of Gray Image')
+
+m = cv2.equalizeHist(g)
+plt.subplot(4, 2, 6)
+plt.imshow(m, cmap='gray')
+plt.title('Equalized Image')
+
+plt.subplot(4, 2, 8)
+plt.hist(m.ravel(), bins=256, range=[0, 256], color='b', alpha=0.7)
+plt.title('Histogram of Equalized Image')
+
+plt.tight_layout()
+plt.show()
+

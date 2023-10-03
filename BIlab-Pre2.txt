@@ -1,0 +1,45 @@
+import numpy as np
+
+# Function to create a magic square
+def magic(n):
+    if n % 2 == 0:
+        raise ValueError("Size of the magic square should be odd.")
+    a = np.zeros((n, n), dtype=int)
+    i, j = 0, n // 2
+    num = 1
+    while num <= n ** 2:
+        a[i, j] = num
+        num += 1
+        new_i, new_j = (i - 1) % n, (j + 1) % n
+        if a[new_i, new_j]:
+            i = (i + 1) % n
+        else:
+            i, j = new_i, new_j
+    return a
+
+# Create a 5x5 magic square
+a = magic(5)
+
+print("a=")
+print(a)
+
+b = int(input("Enter the row < size of the Matrix: "))
+c = int(input("Enter the column < size of the matrix: "))
+
+print("Element:")
+print(a[b-1, c-1])
+
+# 4 Point Neighbour
+N4 = [a[b, c-1], a[b-2, c-1], a[b-1, c], a[b-1, c-2]]
+print("N4=")
+print(N4)
+
+# 8 Point Neighbour
+N8 = [a[b, c-1], a[b-2, c-1], a[b-1, c], a[b-1, c-2], a[b, c], a[b, c-2], a[b-2, c], a[b-2, c-2]]
+print("N8=")
+print(N8)
+
+# Diagonal Neighbour
+ND = [a[b, c], a[b, c-2], a[b-2, c-2], a[b-2, c]]
+print("ND=")
+print(ND)
